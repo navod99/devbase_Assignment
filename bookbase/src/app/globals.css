@@ -4,5 +4,5 @@
 
 body {
   background: #ebf0fa;
-  @apply text-gray-500 m-8;
+  @apply text-gray-500 mx-8;
 }
