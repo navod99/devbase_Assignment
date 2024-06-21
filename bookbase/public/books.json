@@ -1,0 +1,133 @@
+{
+  "uuid": "1cb83f8d-d0da-48be-b687-5e1c0bd6ca27",
+  "lastMigration": 32,
+  "name": "Books",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 5001,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "2b029c75-b6d3-4724-847e-386c3cc82982",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "",
+      "responses": [
+        {
+          "uuid": "f79bedc7-c00a-4133-93e8-20bf1b470060",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "7fa3b715-e142-42cd-aa7c-a91dbb603c92",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "books",
+      "responses": [
+        {
+          "uuid": "42aab0d8-9c2d-4809-9ac4-3ba76ffaad6a",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "0gdi",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "2b029c75-b6d3-4724-847e-386c3cc82982"
+    },
+    {
+      "type": "route",
+      "uuid": "7fa3b715-e142-42cd-aa7c-a91dbb603c92"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "baa6d697-ad5b-401c-8abc-f3d621f2fd30",
+      "id": "0gdi",
+      "name": "Books",
+      "documentation": "",
+      "value": "[\n  {{#repeat 10}}\n    {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"title\": \"{{faker 'lorem.words'}}\",\n      \"author\": \"{{faker 'person.fullName'}}\"\n    }\n  {{/repeat}}\n]"
+    }
+  ],
+  "callbacks": []
+}
