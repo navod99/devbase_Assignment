@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState} from 'react'
+import React from 'react'
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
@@ -14,13 +14,16 @@ export default function OrderSelector({ order }: Props) {
 
     const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
 
+        // Create a new URLSearchParams object with the current search parameters
         const current = new URLSearchParams(searchParams);
         const value = event.target.value.trim();
 
+        // If the value is empty, remove 'sort' and 'order' parameters from the URL
         if (!value) {
             current.delete("sort");
             current.delete("order");
         } else {
+            // Otherwise, set 'sort' to 'title' and 'order' to the selected value
             current.set("sort", "title");
             current.set("order", event.target.value);
         };
@@ -28,6 +31,7 @@ export default function OrderSelector({ order }: Props) {
         const query = current.toString();
         const queryparam = query ? `?${query}` : "";
 
+        // Navigate to the new URL with the updated search parameters
         router.push(`${pathname}${queryparam}`);
     }
     

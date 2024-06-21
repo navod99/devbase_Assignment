@@ -15,9 +15,11 @@ export default function Pagination({hasNextPage, hasPrevPage, totalCount}: Props
     const searchParams = useSearchParams();
     const current = new URLSearchParams(searchParams);
 
+    // Get 'page' and 'limit' from the searchParams object, with default values if not present
     const page = searchParams.get('page') ?? '1'
     const limit = searchParams.get('limit') ?? '9'
 
+    // Function to handle moving to the next page
     const handleNext = () => {
         current.set("page", (Number(page) + 1).toString());
         current.set("limit", limit);
@@ -27,6 +29,7 @@ export default function Pagination({hasNextPage, hasPrevPage, totalCount}: Props
         router.push(`${pathname}${queryparam}`);
     }
 
+    // Function to handle moving to the previous page
     const handlePrevious = () => {
         current.set("page", (Number(page) - 1).toString());
         current.set("limit", limit);

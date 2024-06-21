@@ -18,6 +18,7 @@ export default function CreateForm() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+
         // Reset errors
         setError({ title: '', author: '' });
 
@@ -34,6 +35,8 @@ export default function CreateForm() {
         setIsLoading(true);
 
         let body = { title, author };
+
+        // API for create
         const res = await fetch(`${process.env.NEXT_PUBLIC__BASE_URL}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

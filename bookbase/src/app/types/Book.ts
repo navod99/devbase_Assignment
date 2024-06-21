@@ -6,5 +6,5 @@ export interface BookDetails {
 
 export interface BookListResponse {
     data: BookDetails[],
-    totalCount: string
+    totalCount: string| null
 }

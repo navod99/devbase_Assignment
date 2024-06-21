@@ -4,6 +4,7 @@ import BookCard from './BookCard'
 import OrderSelector from './OrderSelector ';
 import Pagination from './Pagination';
 
+// routes being rendered for each user at request time
 export const dynamic = "force-dynamic";
 
 interface queryParameters {
@@ -14,21 +15,18 @@ interface queryParameters {
 }
 
 async function getBooks(params: queryParameters) {
-    let res: any = null;
+    // Determine the URL based on presence of sort and order parameters
+    let url = `${process.env.NEXT_PUBLIC__BASE_URL}?page=${params.pageNumber}&limit=${params.limit}`;
     if (params.order && params.sort) {
-        res = await fetch(`${process.env.NEXT_PUBLIC__BASE_URL}/?sort=${params.sort}&order=${params.order}&page=${params.pageNumber}&limit=${params.limit}`, {
-            next: {
-                revalidate: 0
-            }
-        })
+        url += `&sort=${params.sort}&order=${params.order}`;
     }
-    else {
-        res = await fetch(`${process.env.NEXT_PUBLIC__BASE_URL}?page=${params.pageNumber}&limit=${params.limit}`, {
-            next: {
-                revalidate: 0
-            }
-        })
-    }
+
+    // Fetch data from the API
+    const res = await fetch(url, {
+        next: {
+            revalidate: 0
+        }
+    })
 
     if (res.ok) {
         const totalCount = res.headers.get('X-Total-Count');
@@ -42,16 +40,20 @@ export default async function BookList({
 }: {
     searchParams: { [key: string]: string | string[] | undefined };
 }) {
+    // Extract searchparams
     const order = searchParams['order'] ?? "";
     const sort = searchParams['sort'] ?? "";
     const pageNumber = searchParams['page'] ?? "1";
     const limit = searchParams['limit'] ?? "9";
 
+    // Calculate the start index for pagination
     const start = (Number(pageNumber) - 1) * Number(limit)
+    // Calculate the end index for pagination
     const end = start + Number(limit)
 
     const params: queryParameters = { order, sort, pageNumber, limit }
 
+    // Fetch the list of books
     const books: BookListResponse | undefined = await getBooks(params)
 
     return (
