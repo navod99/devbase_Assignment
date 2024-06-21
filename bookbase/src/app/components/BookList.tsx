@@ -1,22 +1,29 @@
 import React from 'react'
-import { BookDetails } from '../types/Book'
+import { BookListResponse } from '../types/Book'
 import BookCard from './BookCard'
 import OrderSelector from './OrderSelector ';
+import Pagination from './Pagination';
 
 export const dynamic = "force-dynamic";
 
-async function getBooks(order: string, sort: string) {
-    
-    let res:any = null;
-    if(order && sort) {
-        res = await fetch(`${process.env.NEXT_PUBLIC__BASE_URL}/?sort=${sort}&order=${order}`, {
+interface queryParameters {
+    order: string | string[],
+    sort: string| string[],
+    pageNumber: string| string[],
+    limit: string| string[]
+}
+
+async function getBooks(params: queryParameters) {
+    let res: any = null;
+    if (params.order && params.sort) {
+        res = await fetch(`${process.env.NEXT_PUBLIC__BASE_URL}/?sort=${params.sort}&order=${params.order}&page=${params.pageNumber}&limit=${params.limit}`, {
             next: {
                 revalidate: 0
             }
         })
     }
-    else{
-        res = await fetch(`${process.env.NEXT_PUBLIC__BASE_URL}`, {
+    else {
+        res = await fetch(`${process.env.NEXT_PUBLIC__BASE_URL}?page=${params.pageNumber}&limit=${params.limit}`, {
             next: {
                 revalidate: 0
             }
@@ -24,27 +31,28 @@ async function getBooks(order: string, sort: string) {
     }
 
     if (res.ok) {
-        return res.json();
+        const totalCount = res.headers.get('X-Total-Count');
+        const data = await res.json();
+        return { data, totalCount }
     }
 }
 
 export default async function BookList({
     searchParams,
 }: {
-    searchParams?: { [key: string]: string | string[] | undefined };
+    searchParams: { [key: string]: string | string[] | undefined };
 }) {
-    const selectedOrder = searchParams?.order ?? "";
-    const selectedSort = searchParams?.sort ?? "";
+    const order = searchParams['order'] ?? "";
+    const sort = searchParams['sort'] ?? "";
+    const pageNumber = searchParams['page'] ?? "1";
+    const limit = searchParams['limit'] ?? "9";
 
-    const order = Array.isArray(selectedOrder)
-        ? selectedOrder[0]
-        : selectedOrder;
+    const start = (Number(pageNumber) - 1) * Number(limit)
+    const end = start + Number(limit)
 
-    const sort = Array.isArray(selectedSort)
-        ? selectedSort[0]
-        : selectedSort;
+    const params: queryParameters = { order, sort, pageNumber, limit }
 
-    const books: BookDetails[] | undefined = await getBooks(order, sort)
+    const books: BookListResponse | undefined = await getBooks(params)
 
     return (
         <>
@@ -52,9 +60,9 @@ export default async function BookList({
                 <OrderSelector order={order || ""} />
             </div>
 
-            {books && books.length > 0 ? (
+            {books && books.data.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-2">
-                    {books.map((book) => {
+                    {books.data.map((book) => {
                         return (
                             <BookCard key={book.id} book={book} />
                         )
@@ -63,6 +71,12 @@ export default async function BookList({
             ) :
                 <h2>No results</h2>
             }
+
+            <Pagination
+                totalCount = { Number(books?.totalCount)}
+                hasNextPage={end < Number(books?.totalCount)}
+                hasPrevPage={start > 0}
+            />
         </>
     )
 }

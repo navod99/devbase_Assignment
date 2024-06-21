@@ -6,7 +6,7 @@ import Loading from "./loading";
 export default function Home({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
 
   return (

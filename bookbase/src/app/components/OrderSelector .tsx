@@ -4,7 +4,7 @@ import React, { useState} from 'react'
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
-    order: string
+    order: string | string[]
 }
 
 export default function OrderSelector({ order }: Props) {
