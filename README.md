@@ -14,18 +14,18 @@ cd bookbase
 
 ### 3.  Install Dependencies
 
-# Using npm
+### Using npm
 npm install
 
-# Or using yarn
+### Or using yarn
 yarn install
 
 ### 4.  Run the Development Server
 
-# Using npm
+### Using npm
 npm run dev
 
-# Or using yarn
+### Or using yarn
 yarn dev
 
 Open http://localhost:3000 with your browser to see the result.
