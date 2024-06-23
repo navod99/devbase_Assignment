@@ -45,7 +45,7 @@ npm i -g @mockoon/cli
 
 ### 2.In your terminal, navigate to the public folder where the books.json file is located and run the following command:
 
-mockoon-cli start --data ./public/books.json
+mockoon-cli start --data ./books.json
 
 -----------------------------------------------------------------------
 ** Using Mockoon Desktop Application
