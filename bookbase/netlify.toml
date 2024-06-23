@@ -1,0 +1,5 @@
+[[redirects]]
+  force = true
+  from = "/books/*"
+  status = 200
+  to = "/.netlify/functions/mockapi"
