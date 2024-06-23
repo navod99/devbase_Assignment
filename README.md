@@ -57,3 +57,13 @@ mockoon-cli start --data ./books.json
 click open local Environment and navigate to the public folder, select the books.json file, and import it.
 
 ### 3. start the Server
+
+
+## Configuring Environment
+
+Before running the project locally, update the `.env` file to set `NEXT_PUBLIC_BASE_URL` to the local port where your Mock REST APIs are running.
+
+1. Open `.env` in the root directory.
+
+2. Find `NEXT_PUBLIC_BASE_URL` and set its value to `http://localhost:<PORT>/books`, where `<PORT>` is your Mock REST API server's local port.
+
